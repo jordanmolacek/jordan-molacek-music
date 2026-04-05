@@ -11,10 +11,12 @@ import './App.css';
 
 // Replace these with actual published CSV URLs from the different year tabs
 const SHOW_CSV_URLS = [
-  'https://docs.google.com/spreadsheets/d/e/2PACX-1vS-placeholder-2024/pub?output=csv',
-  'https://docs.google.com/spreadsheets/d/e/2PACX-1vS-placeholder-2023/pub?output=csv',
-  'https://docs.google.com/spreadsheets/d/e/2PACX-1vS-placeholder-2022/pub?output=csv',
-  'https://docs.google.com/spreadsheets/d/e/2PACX-1vS-placeholder-2021/pub?output=csv'
+  'https://docs.google.com/spreadsheets/d/e/2PACX-1vRzPetMTNzuoiQiuKnJ4m--r8OSUweUqGSGuMiy5brRShU0mA-il7Xqd1eVJGC4QVyBt1LaLjIK7-_O/pub?gid=482881023&single=true&output=csv', // 2026
+  'https://docs.google.com/spreadsheets/d/e/2PACX-1vRzPetMTNzuoiQiuKnJ4m--r8OSUweUqGSGuMiy5brRShU0mA-il7Xqd1eVJGC4QVyBt1LaLjIK7-_O/pub?gid=1148756601&single=true&output=csv', // 2025
+  'https://docs.google.com/spreadsheets/d/e/2PACX-1vRzPetMTNzuoiQiuKnJ4m--r8OSUweUqGSGuMiy5brRShU0mA-il7Xqd1eVJGC4QVyBt1LaLjIK7-_O/pub?gid=138002426&single=true&output=csv', // 2024
+  'https://docs.google.com/spreadsheets/d/e/2PACX-1vRzPetMTNzuoiQiuKnJ4m--r8OSUweUqGSGuMiy5brRShU0mA-il7Xqd1eVJGC4QVyBt1LaLjIK7-_O/pub?gid=563520846&single=true&output=csv', // 2023
+  'https://docs.google.com/spreadsheets/d/e/2PACX-1vRzPetMTNzuoiQiuKnJ4m--r8OSUweUqGSGuMiy5brRShU0mA-il7Xqd1eVJGC4QVyBt1LaLjIK7-_O/pub?gid=1805717559&single=true&output=csv', // 2022
+  'https://docs.google.com/spreadsheets/d/e/2PACX-1vRzPetMTNzuoiQiuKnJ4m--r8OSUweUqGSGuMiy5brRShU0mA-il7Xqd1eVJGC4QVyBt1LaLjIK7-_O/pub?gid=0&single=true&output=csv' // 2021
 ];
 
 const App: React.FC = () => {
