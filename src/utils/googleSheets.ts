@@ -18,7 +18,7 @@ export interface ShowData {
   fiddle: string;
   event: string;
   notes: string;
-  parsedDate: Date; // For sorting and filtering
+  parsedDate: Date;
 }
 
 const parseCSVLine = (line: string): string[] => {
@@ -41,61 +41,74 @@ const parseCSVLine = (line: string): string[] => {
   return result;
 };
 
-export const fetchShowData = async (csvUrls: string[]): Promise<ShowData[]> => {
-  let allShows: ShowData[] = [];
+export const fetchSingleSheet = async (url: string): Promise<ShowData[]> => {
+  try {
+    const response = await fetch(url);
+    const csvText = await response.text();
+    
+    const rows = csvText.replace(/\r/g, '').split('\n').filter(row => row.trim() !== '');
+    if (rows.length < 2) return [];
 
-  for (const url of csvUrls) {
-    if (!url || url.includes('placeholder')) continue;
+    const rawHeaders = parseCSVLine(rows[0]);
+    // Create a mapping of normalized header names to their original indices
+    const headerMap: Record<string, number> = {};
+    rawHeaders.forEach((h, index) => {
+      const normalized = h.toLowerCase().replace(/[^a-z0-9]/g, '');
+      headerMap[normalized] = index;
+    });
 
-    try {
-      const response = await fetch(url);
-      const csvText = await response.text();
-      
-      const rows = csvText.replace(/\r/g, '').split('\n').filter(row => row.trim() !== '');
-      if (rows.length < 2) continue;
-
-      const headers = parseCSVLine(rows[0]).map(h => h.toLowerCase().replace(/[^a-z0-9]/g, ''));
-      
-      const shows = rows.slice(1).map(row => {
+    const getVal = (values: string[], possibleKeys: string[]) => {
+      for (const key of possibleKeys) {
+        if (headerMap[key] !== undefined) {
+          return values[headerMap[key]];
+        }
+      }
+      return '';
+    };
+    
+    return rows.slice(1)
+      .map(row => {
         const values = parseCSVLine(row);
-        const data: any = {};
-        headers.forEach((header, index) => {
-          data[header] = values[index];
-        });
+        const dateStr = getVal(values, ['date']).toLowerCase();
         
-        const dateStr = data.date || '';
+        // Filter out empty or total rows
+        if (!dateStr || dateStr.includes('total')) return null;
+
+        const artistBand = getVal(values, ['artistband', 'artist', 'band']);
+        const venue = getVal(values, ['venue']);
+        
+        // Filter out rows that have no gig info
+        if (!artistBand && !venue) return null;
+
         const parsedDate = new Date(dateStr);
 
         return {
-          date: dateStr,
-          pay: data.pay || '',
-          duration: data.durationhrs || data.duration || '',
-          paid: data.paid || '',
-          artistBand: data.artistband || data.artist || '',
-          instrument: data.instrument || '',
-          venue: data.venue || '',
-          city: data.city || '',
-          leadVox: data.leadvox || '',
-          drums: data.drums || '',
-          keys: data.keys || '',
-          backingVox: data.backingvox || '',
-          guitar1: data.guitar1 || '',
-          guitar2: data.guitar2 || '',
-          trumpet: data.trumpet || '',
-          bass: data.bass || '',
-          fiddle: data.fiddle || '',
-          event: data.event || '',
-          notes: data.notes || '',
+          date: getVal(values, ['date']),
+          pay: getVal(values, ['pay']),
+          duration: getVal(values, ['durationhrs', 'duration']),
+          paid: getVal(values, ['paid']),
+          artistBand: artistBand,
+          instrument: getVal(values, ['instrument']),
+          venue: venue,
+          city: getVal(values, ['city']),
+          leadVox: getVal(values, ['leadvox']),
+          drums: getVal(values, ['drums']),
+          keys: getVal(values, ['keys']),
+          backingVox: getVal(values, ['backingvox']),
+          guitar1: getVal(values, ['guitar1']),
+          guitar2: getVal(values, ['guitar2']),
+          trumpet: getVal(values, ['trumpet']),
+          bass: getVal(values, ['bass']),
+          fiddle: getVal(values, ['fiddle']),
+          event: getVal(values, ['event']),
+          notes: getVal(values, ['notes']),
           parsedDate: isNaN(parsedDate.getTime()) ? new Date(0) : parsedDate,
         } as ShowData;
-      });
-
-      allShows = [...allShows, ...shows];
-    } catch (error) {
-      console.error('Error fetching show data:', error);
-    }
+      })
+      .filter((show): show is ShowData => show !== null)
+      .sort((a, b) => b.parsedDate.getTime() - a.parsedDate.getTime());
+  } catch (error) {
+    console.error('Error fetching show data:', error);
+    return [];
   }
-
-  // Sort all shows by date descending (newest first)
-  return allShows.sort((a, b) => b.parsedDate.getTime() - a.parsedDate.getTime());
 };

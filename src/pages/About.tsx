@@ -7,18 +7,16 @@ const About: React.FC = () => {
       <div className="about-content">
         <img 
           src="https://jordan-site-photos.s3.us-east-1.amazonaws.com/photo2.jpg" 
-          alt="Jordan Molacek performing" 
+          alt="Jordan Molacek playing pedal steel" 
           className="about-image"
         />
         <div className="about-text">
           <h2 style={{ fontSize: '2rem', marginBottom: '1rem', color: 'var(--accent-color)' }}>Jordan Molacek</h2>
           <p>
-            Jordan is a dynamic and versatile musician known for bringing high energy and professional quality to every performance. 
-            With years of experience playing across various venues and cities, Jordan has developed a sound and stage presence that resonates with audiences of all sizes.
+            Traditional pedal steel. I have an immense respect for the legends who carved out this sound decades ago. 
           </p>
           <p>
-            From intimate acoustic settings to large-scale events with a full band, Jordan's commitment to musical excellence is evident in every note. 
-            Specializing in multiple instruments and styles, the music speaks for itself—creating memorable experiences for fans and event-goers alike.
+            My work is simple: honor that history and bring real emotion to every stage I play on.
           </p>
         </div>
       </div>
