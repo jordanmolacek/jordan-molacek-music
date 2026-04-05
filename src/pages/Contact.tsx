@@ -5,14 +5,13 @@ const Contact: React.FC = () => {
     <div className="page-container">
       <h1 className="page-title">Contact</h1>
       <div className="contact-info">
-        <p>Interested in booking Jordan for your next event or looking to collaborate? Reach out below!</p>
-        
+      
         <div className="contact-method">
           <h3>Booking & Inquiries</h3>
           <p style={{ marginBottom: 0 }}>
-            <a href="mailto:booking@example.com" style={{ color: 'var(--text-main)', fontSize: '1.5rem', fontWeight: 'bold' }}>
+            <a href="mailto:jordanmolacek@google.com" style={{ color: 'var(--text-main)', fontSize: '1.5rem', fontWeight: 'bold' }}>
               {/* Replace with actual email later if needed, using social DMs for now as a placeholder text */}
-              DM on Instagram
+              Email
             </a>
           </p>
         </div>
