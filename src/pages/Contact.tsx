@@ -10,7 +10,6 @@ const Contact: React.FC = () => {
           <h3>Booking & Inquiries</h3>
           <p style={{ marginBottom: 0 }}>
             <a href="mailto:jordanmolacek@google.com" style={{ color: 'var(--text-main)', fontSize: '1.5rem', fontWeight: 'bold' }}>
-              {/* Replace with actual email later if needed, using social DMs for now as a placeholder text */}
               Email
             </a>
           </p>
