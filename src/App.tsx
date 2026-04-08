@@ -7,6 +7,7 @@ import Shows from './pages/Shows';
 import About from './pages/About';
 import Media from './pages/Media';
 import Contact from './pages/Contact';
+import MapPage from './pages/MapPage';
 import './App.css';
 
 const SHOW_CSV_MAPPING = {
@@ -27,6 +28,7 @@ const App: React.FC = () => {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/shows" element={<Shows csvMapping={SHOW_CSV_MAPPING} />} />
+            <Route path="/map" element={<MapPage csvMapping={SHOW_CSV_MAPPING} />} />
             <Route path="/about" element={<About />} />
             <Route path="/media" element={<Media />} />
             <Route path="/contact" element={<Contact />} />

@@ -18,6 +18,8 @@ export interface ShowData {
   fiddle: string;
   event: string;
   notes: string;
+  latitude: number | null;
+  longitude: number | null;
   parsedDate: Date;
 }
 
@@ -50,7 +52,6 @@ export const fetchSingleSheet = async (url: string): Promise<ShowData[]> => {
     if (rows.length < 2) return [];
 
     const rawHeaders = parseCSVLine(rows[0]);
-    // Create a mapping of normalized header names to their original indices
     const headerMap: Record<string, number> = {};
     rawHeaders.forEach((h, index) => {
       const normalized = h.toLowerCase().replace(/[^a-z0-9]/g, '');
@@ -71,16 +72,27 @@ export const fetchSingleSheet = async (url: string): Promise<ShowData[]> => {
         const values = parseCSVLine(row);
         const dateStr = getVal(values, ['date']).toLowerCase();
         
-        // Filter out empty or total rows
         if (!dateStr || dateStr.includes('total')) return null;
 
         const artistBand = getVal(values, ['artistband', 'artist', 'band']);
         const venue = getVal(values, ['venue']);
         
-        // Filter out rows that have no gig info
         if (!artistBand && !venue) return null;
 
         const parsedDate = new Date(dateStr);
+        
+        // Handle "Lat,Lon" combined column
+        const latLonStr = getVal(values, ['latlon', 'latitude', 'coords']);
+        let latitude: number | null = null;
+        let longitude: number | null = null;
+        
+        if (latLonStr) {
+          const parts = latLonStr.split(',').map(p => parseFloat(p.trim()));
+          if (parts.length === 2 && !isNaN(parts[0]) && !isNaN(parts[1])) {
+            latitude = parts[0];
+            longitude = parts[1];
+          }
+        }
 
         return {
           date: getVal(values, ['date']),
@@ -102,6 +114,8 @@ export const fetchSingleSheet = async (url: string): Promise<ShowData[]> => {
           fiddle: getVal(values, ['fiddle']),
           event: getVal(values, ['event']),
           notes: getVal(values, ['notes']),
+          latitude,
+          longitude,
           parsedDate: isNaN(parsedDate.getTime()) ? new Date(0) : parsedDate,
         } as ShowData;
       })

@@ -17,6 +17,7 @@ const Navbar: React.FC = () => {
       <div className={`nav-links ${isOpen ? 'open' : ''}`}>
         <NavLink to="/" className={({isActive}) => isActive ? "nav-link active" : "nav-link"} onClick={closeMenu} end>Home</NavLink>
         <NavLink to="/shows" className={({isActive}) => isActive ? "nav-link active" : "nav-link"} onClick={closeMenu}>Shows</NavLink>
+        <NavLink to="/map" className={({isActive}) => isActive ? "nav-link active" : "nav-link"} onClick={closeMenu}>Map</NavLink>
         <NavLink to="/media" className={({isActive}) => isActive ? "nav-link active" : "nav-link"} onClick={closeMenu}>Media</NavLink>
         <NavLink to="/about" className={({isActive}) => isActive ? "nav-link active" : "nav-link"} onClick={closeMenu}>About</NavLink>
         <NavLink to="/contact" className={({isActive}) => isActive ? "nav-link active" : "nav-link"} onClick={closeMenu}>Contact</NavLink>
