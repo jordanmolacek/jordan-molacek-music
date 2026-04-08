@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { fetchSingleSheet, ShowData } from '../utils/googleSheets';
@@ -41,6 +41,19 @@ interface MapPin extends ShowData {
   coords: [number, number];
   isUpcoming: boolean;
 }
+
+const MapBoundsUpdater: React.FC<{ pins: MapPin[] }> = ({ pins }) => {
+  const map = useMap();
+  
+  useEffect(() => {
+    if (pins.length > 0) {
+      const bounds = L.latLngBounds(pins.map(p => p.coords));
+      map.fitBounds(bounds, { padding: [50, 50], maxZoom: 12 });
+    }
+  }, [pins, map]);
+  
+  return null;
+};
 
 const MapPage: React.FC<MapPageProps> = ({ csvMapping }) => {
   const [pins, setPins] = useState<MapPin[]>([]);
@@ -117,6 +130,7 @@ const MapPage: React.FC<MapPageProps> = ({ csvMapping }) => {
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
+          <MapBoundsUpdater pins={pins} />
           {pins.map((pin, index) => (
             <Marker 
               key={`${pin.date}-${index}`} 
