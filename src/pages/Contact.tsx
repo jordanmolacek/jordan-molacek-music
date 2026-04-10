@@ -9,7 +9,7 @@ const Contact: React.FC = () => {
         <div className="contact-method">
           <h3>Booking & Inquiries</h3>
           <p style={{ marginBottom: 0 }}>
-            <a href="mailto:jordanmolacek@google.com" style={{ color: 'var(--text-main)', fontSize: '1.5rem', fontWeight: 'bold' }}>
+            <a href="mailto:jordanmolacek@gmail.com" style={{ color: 'var(--text-main)', fontSize: '1.5rem', fontWeight: 'bold' }}>
               Email
             </a>
           </p>
