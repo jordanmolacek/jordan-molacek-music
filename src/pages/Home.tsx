@@ -7,7 +7,7 @@ const Home: React.FC = () => {
       <HeroSection 
         imageUrl="https://jordan-site-photos.s3.us-east-1.amazonaws.com/photo1.jpg"
         title="Jordan Molacek"
-        subtitle="Pedal Steel Guitar"
+        subtitle="Pedal Steel Guitarist"
         ctaText="View Gigs"
         ctaLink="/shows"
       />
